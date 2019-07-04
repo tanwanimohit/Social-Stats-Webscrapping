@@ -21,7 +21,7 @@ def Youtube() :
 
 
            """)
-    string = raw_input("Enter Youtube Channel URL : ")
+    string = input("Enter Youtube Channel URL : ")
     page = requests.get(string)
     #r=requests.get(string).text
     # Create a BeautifulSoup object
@@ -39,10 +39,10 @@ def Youtube() :
     Channel_Name = bs[start:step2]
     Channel_Name = Channel_Name.lstrip()
 
-    print "Channel Name : ",Channel_Name
+    print ("Channel Name : ",Channel_Name)
 
     while True:
-        # Collect first page of artists’ list
+        # Collect first page of artistsâ€™ list
        
         page = requests.get(string)
 
@@ -59,7 +59,7 @@ def Youtube() :
   
 def Instagram() :
     
-    username=raw_input("Enter Instagram User Name : ")
+    username=input("Enter Instagram User Name : ")
     string="""https://www.instagram.com/"""+username+"/"
     page = requests.get(string)
     r=requests.get(string).text
@@ -71,54 +71,53 @@ def Instagram() :
     start+=len("""full_name""")
     end=bs.find("""has_channel""")
     Name=bs[start+3:end-3]
-    print "\nUser Name : ",Name
+    print ("\nUser Name : ",Name)
 
     start=bs.find("""biography""")
     start+=len("""biography""")
     end=bs.find("""blocked_by_viewer""")
     bio=bs[start+3:end-3]
-    print "\nBio : ",bio.encode(encoding='UTF-8',errors='strict')
+    print ("\nBio : ",bio.encode(encoding='UTF-8',errors='strict'))
 
     start=bs.find("""followed_by_viewer""")
                   
     start+=len("""followed_by_viewer""")+len(""""edge_follow":{  "count":""")+3
     end=bs.find("""follows_viewer""")
     following=bs[start+3:end-3]
-    print "\nFollowing : ",following
+    print ("\nFollowing : ",following)
 
     start=bs.find("""profile_pic_url_hd""")
     start+=len("""profile_pic_url_hd""")
     end=bs.find("""requested_by_viewer""")
     Profile=bs[start+3:end-3]
-    print "\nProfile Image : ",Profile
+    print ("\nProfile Image : ",Profile)
     
     start= bs.find(""""edge_followed_by":{"count":""")
     start+=len("""edge_followed_by":{"count":""")+1
     end=bs.find("""},"followed_by_viewer""")
     followers=bs[start:end]
     followers.lstrip()
-    print "\nFollowers : ",followers
+    print ("\nFollowers : ",followers)
 
 def Twitter() :
 
-    user = raw_input("Enter Twitter username : ")
+    user = input("Enter Twitter username : ")
     page = requests.get('https://twitter.com/'+user)
     bs = BeautifulSoup(page.text, 'lxml')
     follow_box = bs.find('li', {'class': 'ProfileNav-item ProfileNav-item--followers'})
     followers = follow_box.find('a').find('span', {'class':'ProfileNav-value'})
     twitter_follower = followers.get('data-count')
     
-    print "Followers : ",twitter_follower
-
+    print ("Followers : ",twitter_follower)
 
 try:
     a=True
     while a:
-        print "1. Youtube Live Subscribers Count"
-        print "2. Instagram Followers Details"
-        print "3. Twitter Followers Details"
-        print "4. Exit"
-        inp=raw_input("Choose from Above")
+        print ("1. Youtube Live Subscribers Count")
+        print ("2. Instagram Followers Details")
+        print ("3. Twitter Followers Details")
+        print ("4. Exit")
+        inp=input("Choose from Above")
         if(inp=="1"):
             Youtube()
         elif (inp=="2"):
@@ -128,6 +127,6 @@ try:
         elif (inp=="4"):
             a=False
         else :
-            print "Wrong Choice" 
-except:
-    print "Something Went Wrong"
+            print ("Wrong Choice")
+except Exception as e:
+    print(e)
